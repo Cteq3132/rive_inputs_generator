@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rive_inputs_generator/rive_import_view.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -9,10 +11,28 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Expanded(
+                flex: 1,
+                child: RiveImportView(),
+              ),
+              // dotted line
+              Container(
+                height: double.infinity,
+                width: 1,
+                color: Colors.grey,
+              ),
+              const Expanded(
+                flex: 2,
+                child: Center(child: Text('Hello')),
+              ),
+            ],
+          ),
         ),
       ),
     );
