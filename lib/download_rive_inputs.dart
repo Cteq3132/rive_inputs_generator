@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:html';
 import 'dart:typed_data';
 
+import 'package:rive_inputs_generator/rive_inputs_extractor.dart';
+
 Future<void> downloadDartCode(String dartCode, String baseName) async {
-  final downloadName = '$baseName.dart';
+  final downloadName = firstCharToLower('$baseName.dart');
 
   final bytes = Uint8List.fromList(dartCode.codeUnits);
   // Encode our file in base64
