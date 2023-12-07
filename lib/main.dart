@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive_inputs_generator/rive_import_view.dart';
+import 'package:rive_inputs_generator/rive_inputs_extractor.dart';
 
 void main() {
   runApp(const ProviderScope(child: MainApp()));
@@ -28,8 +29,8 @@ class MainApp extends StatelessWidget {
                 color: Colors.grey,
               ),
               const Expanded(
-                flex: 2,
-                child: Center(child: Text('Hello')),
+                flex: 3,
+                child: Center(child: RiveInputsExtractor()),
               ),
             ],
           ),

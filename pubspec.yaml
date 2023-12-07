@@ -1,16 +1,22 @@
 name: rive_inputs_generator
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.2.2 <4.0.0'
+  sdk: ">=3.2.2 <4.0.0"
+
+platforms:
+  web:
 
 dependencies:
+  fast_immutable_collections: ^9.2.0
   file_picker: ^6.1.1
   flutter:
     sdk: flutter
+  flutter_highlight: ^0.7.0
   flutter_riverpod: ^2.4.9
+  html: ^0.15.4
   rive: ^0.12.3
 
 dev_dependencies:

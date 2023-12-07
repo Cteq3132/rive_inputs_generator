@@ -4,15 +4,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
+import 'package:rive_inputs_generator/download_rive_inputs.dart';
 import 'package:rive_inputs_generator/rive_import_providers.dart';
+import 'package:rive_inputs_generator/rive_inputs_extractor.dart';
 
 class RiveImportView extends ConsumerWidget {
   const RiveImportView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final riveFile = ref.watch(riveFileProvider);
-
     return Scaffold(
       appBar: AppBar(title: const Text('Import Rive File')),
       body: Center(
@@ -35,11 +35,42 @@ class RiveImportView extends ConsumerWidget {
               },
               child: const Text('Select Rive File'),
             ),
-            // Implement drag and drop widget here if needed
-            if (riveFile != null)
-              const Text('File selected!')
-            else
-              const Text('No file selected')
+            const SizedBox(height: 32),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Exported File Name (PascalCase)',
+                ),
+                onChanged: (value) {
+                  ref.read(exportedFileNameProvider.notifier).state = value;
+                },
+                // initial value
+                controller: TextEditingController(
+                  text: ref.read(exportedFileNameProvider),
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
+            // Download button
+            ElevatedButton(
+              onPressed: () async {
+                final baseName = ref.read(exportedFileNameProvider);
+                if (baseName == null || baseName.isEmpty) {
+                  return;
+                }
+
+                final stateMachineInputs = ref.read(riveStateMachineInputs);
+                if (stateMachineInputs == null) {
+                  return;
+                }
+                final dartCode = generateDartCode(baseName, stateMachineInputs);
+
+                await downloadDartCode(dartCode, baseName);
+              },
+              child: const Text('Download Dart Code'),
+            ),
           ],
         ),
       ),
