@@ -64,9 +64,8 @@ class DartCodeDisplayWidget extends StatelessWidget {
 }
 
 String generateDartCode(String formattedBaseName, IList<String> inputs) {
-  // Capitalize the first letter of the formattedBaseName for class naming conventions
-  String className =
-      formattedBaseName[0].toUpperCase() + formattedBaseName.substring(1);
+  String className = _formatInputName(formattedBaseName)[0].toUpperCase() +
+      _formatInputName(formattedBaseName).substring(1);
 
   // Generate the enum entries
   String enumEntries = inputs
@@ -78,36 +77,34 @@ String generateDartCode(String formattedBaseName, IList<String> inputs) {
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:rive/rive.dart';
 
-enum ${className}StateMachineInputs {
+enum _${className}StateMachineInputs {
   $enumEntries;
 
-  const ${className}StateMachineInputs({required this.name});
+  const _${className}StateMachineInputs({required this.name});
 
   final String name;
 }
 
-/// Returns the [${className}StateMachineInputs] for the given inputs.
-IMap<String, bool> get${className}StateMachineInputs(
+/// Returns the [_${className}StateMachineInputs] for the given inputs.
+IMap<String, bool> _get${className}StateMachineInputs(
     // Add the desired inputs as parameters here.
-    // Example: bool isNight, bool isSummer
+    // Example: required bool isNight
 ) {
   var states = IMap(const <String, bool>{});
 
   // Implement the logic to set the desired state based on the inputs.
-  for (final state in ${className}StateMachineInputs.values) {
+  for (final state in _${className}StateMachineInputs.values) {
     // Example conditional logic for an input
-    // if (state == ${className}StateMachineInputs.isNight && isNight) {
-    //   states = states.add(state.name, true);
-    // } else {
-    //   states = states.add(state.name, false);
+    // if (state == _${className}StateMachineInputs.isNight) {
+    //   states = states.add(state.name, isNight);
     // }
   }
 
   return states;
 }
 
-void setStateMachineInputs(StateMachineController controller) {
-  final states = get${className}StateMachineInputs(
+void set${className}StateMachineInputs(StateMachineController controller) {
+  final states = _get${className}StateMachineInputs(
     // Pass the actual input values here.
   );
 
@@ -127,6 +124,10 @@ void setStateMachineInputs(StateMachineController controller) {
 /// Example: "is-night" -> "isNight"
 /// Example: "is=night" -> "isNight"
 String _formatInputName(String str) {
+  // If str ends with " ", remove it
+  if (str.endsWith(' ')) {
+    str = str.substring(0, str.length - 1);
+  }
   // Remove all non-alphanumeric characters
   str = str.replaceAll(RegExp(r'[^a-zA-Z0-9]'), ' ');
   // Remove all double, triple, etc. spaces

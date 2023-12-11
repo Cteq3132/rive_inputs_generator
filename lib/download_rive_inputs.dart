@@ -5,7 +5,9 @@ import 'dart:typed_data';
 import 'package:rive_inputs_generator/rive_inputs_extractor.dart';
 
 Future<void> downloadDartCode(String dartCode, String baseName) async {
-  final downloadName = firstCharToLower('$baseName.dart');
+  // Replace spaces with underscores
+  final fileName = baseName.replaceAll(' ', '_');
+  final downloadName = firstCharToLower('${fileName}_inputs.dart');
 
   final bytes = Uint8List.fromList(dartCode.codeUnits);
   // Encode our file in base64

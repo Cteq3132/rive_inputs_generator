@@ -41,7 +41,7 @@ class RiveImportView extends ConsumerWidget {
               child: TextField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Exported File Name (PascalCase)',
+                  labelText: 'Animation Name',
                 ),
                 onChanged: (value) {
                   ref.read(exportedFileNameProvider.notifier).state = value;
